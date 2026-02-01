@@ -57,6 +57,17 @@ func main() {
 				}
 				return
 			}
+
+			if strings.ToLower(method) == "get" && strings.HasPrefix(path, "/echo") {
+				pathParts := strings.Split(path, "/")
+				msg := pathParts[len(pathParts)-1]
+				response := fmt.Sprintf("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: %d\r\n\r\n%s", len(msg), msg)
+				_, err = conn.Write([]byte(response))
+				if err != nil {
+					fmt.Println("Error writing Echo response:", err.Error())
+				}
+				return
+			}
 		}
 	}
 
